@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id
+  email        String
+  comments     Comment[]
+  reservations Reservation[]
+}
+
+model Movie {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String
+  rating          Float
+  director        String
+  cast            String[]
+  duration        Float
+  genre           String[]
+  image           String
+  comments        Comment[]
+  movieScreenings MovieScreening[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  movie     Movie    @relation(fields: [movieId], references: [id])
+  movieId   Int
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CinemaHall {
+  id              Int              @id @default(autoincrement())
+  name            String
+  movieScreenings MovieScreening[]
+}
+
+model MovieScreening {
+  id                     Int           @id @default(autoincrement())
+  movie                  Movie?        @relation(fields: [movieId], references: [id])
+  movieId                Int
+  cinemaHall             CinemaHall?   @relation(fields: [cinemaHallId], references: [id])
+  cinemaHallId           Int
+  dateAndTimeOfScreening DateTime
+  price                  Float
+  reservations           Reservation[]
+}
+
+model Reservation {
+  id               Int             @id @default(autoincrement())
+  movieScreening   MovieScreening? @relation(fields: [movieScreeningId], references: [id])
+  movieScreeningId Int
+  user             User?           @relation(fields: [userId], references: [id])
+  userId           String
+  status           String
+}
