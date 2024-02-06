@@ -3,7 +3,7 @@ import UserRepository from '../repositories/users-repository';
 
 class UserController {
 
-    public static async getAllUsers (request: Request, response: Response): Promise<void> {
+    public static async getAllUsers (_request: Request, response: Response): Promise<void> {
         try {
             const users = await UserRepository.getAllUsers();
             response.status(200).json({users});
@@ -24,11 +24,10 @@ class UserController {
 
     public static async createUser(request: Request, response: Response): Promise<void> {
         try {
-            const user = request.body.user;
-            const email = user.user.email;
+            const email = request.body.email;
             const userId = request.body.userId;
             const newlyCreatedUser = await UserRepository.createUser(userId, email);
-            response.status(200).json({newlyCreatedUser});
+            response.status(200).json(newlyCreatedUser);
         } catch (error) {
             response.status(500).json({ error: 'An error occured ' });
           }
