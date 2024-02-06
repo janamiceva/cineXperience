@@ -3,16 +3,27 @@ import { axiosIntance } from "../interceptors/auth-interceptor"
 import { useUserStore } from "../store/user-store"
 import ReservationStatus from "../types/enum/reservation-status"
 
-const reserveTicket = async (id: string, screeningId: number, userId: string | undefined) => {
-    const statusOfReservation = ReservationStatus.INPROGRESS
-    const newlyreserveTicket = await axiosIntance.post(`/reservations/${id}/${screeningId}`, { userId, statusOfReservation })
+type ReservationValues = {
+    screeningId: string,
+    selectedSeats: number[],
+    paymentMethod: string
+}
+
+const reserveTicket = async ({ screeningId, selectedSeats, paymentMethod }: ReservationValues, userId: string | undefined) => {
+    const seats = selectedSeats
+    let statusOfReservation = ReservationStatus.INPROGRESS
+    if (paymentMethod.match('card'))
+        statusOfReservation = ReservationStatus.PAID
+    else
+        statusOfReservation = ReservationStatus.INPROGRESS
+    const newlyreserveTicket = await axiosIntance.post(`/reservations/create/${screeningId}`, { userId, statusOfReservation, seats })
     return newlyreserveTicket.data
 }
 
-const useReserveTicket = (movieId: string) => {
+const useReserveTicket = () => {
     const userId = useUserStore().user?.uid;
 
-    return useMutation((screeningId: number) => reserveTicket(movieId, screeningId, userId))
+    return useMutation((values: ReservationValues) => reserveTicket(values, userId))
 }
 
 export default useReserveTicket
