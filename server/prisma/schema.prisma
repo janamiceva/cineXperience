@@ -11,10 +11,12 @@ datasource db {
 }
 
 model User {
-  id           String        @id
-  email        String
-  comments     Comment[]
-  reservations Reservation[]
+  id             String           @id
+  email          String
+  role           String?          @default("REGULAR")
+  comments       Comment[]
+  reservations   Reservation[]
+  FavoriteMovies FavoriteMovies[]
 }
 
 model Movie {
@@ -27,8 +29,33 @@ model Movie {
   duration        Float
   genre           String[]
   image           String
+  videoId         String?
   comments        Comment[]
   movieScreenings MovieScreening[]
+  favorite        FavoriteMovies[]
+}
+
+model CommingSoonMovies {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String
+  rating          Float
+  director        String
+  cast            String[]
+  duration        Float
+  genre           String[]
+  image           String
+  videoId         String?
+}
+
+model FavoriteMovies {
+  id      Int    @id @default(autoincrement())
+  movie   Movie  @relation(fields: [movieId], references: [id])
+  movieId Int
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+
+  @@unique([movieId, userId])
 }
 
 model Comment {
@@ -49,14 +76,15 @@ model CinemaHall {
 }
 
 model MovieScreening {
-  id                     Int           @id @default(autoincrement())
-  movie                  Movie?        @relation(fields: [movieId], references: [id])
+  id                     Int                    @id @default(autoincrement())
+  movie                  Movie?                 @relation(fields: [movieId], references: [id])
   movieId                Int
-  cinemaHall             CinemaHall?   @relation(fields: [cinemaHallId], references: [id])
+  cinemaHall             CinemaHall?            @relation(fields: [cinemaHallId], references: [id])
   cinemaHallId           Int
   dateAndTimeOfScreening DateTime
   price                  Float
   reservations           Reservation[]
+  seats                  SeatInMovieScreening[]
 }
 
 model Reservation {
@@ -66,4 +94,22 @@ model Reservation {
   user             User?           @relation(fields: [userId], references: [id])
   userId           String
   status           String
+  seatsId          Int[]
+}
+
+model Seat {
+  id              Int                    @id @default(autoincrement())
+  number          Int
+  movieScreenings SeatInMovieScreening[]
+}
+
+model SeatInMovieScreening {
+  id               Int             @id @default(autoincrement())
+  seat             Seat?           @relation(fields: [seatId], references: [id])
+  seatId           Int
+  movieScreening   MovieScreening? @relation(fields: [movieScreeningId], references: [id])
+  movieScreeningId Int
+  status           Boolean         @default(false)
+
+  @@unique([seatId, movieScreeningId])
 }
