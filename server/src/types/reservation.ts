@@ -3,6 +3,7 @@ type Reservation = {
     movieScreeningId: number,
     userId: string,
     status: string,
+    seatsId: number[]
 }
 
 export default Reservation;
