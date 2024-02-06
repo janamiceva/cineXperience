@@ -4,9 +4,21 @@ import isAuthenticatedMiddleware from "../../middlewares/auth-middleware"
 
 const router = express.Router()
 
-router.get('/', isAuthenticatedMiddleware, MoviesController.getAllMovies)
+router.get('/', MoviesController.getAllMovies)
+router.get('/comingSoon', MoviesController.getAllComingSoonMovies)
 router.get('/:id', MoviesController.getMovieByMovieId)
-router.delete('/delete', MoviesController.deleteAllMovies)
+router.get('/genre/:genre', MoviesController.getMovieByGenre)
+router.get('/search/:query', MoviesController.getMoviesByQueryString)
+router.get('/savedMoviesForUser/:userId', isAuthenticatedMiddleware,  MoviesController.getSavedMoviesForUser)
+
+
+router.post('/', isAuthenticatedMiddleware, MoviesController.addMovie)
+router.post('/save/:movieId/:userId', isAuthenticatedMiddleware, MoviesController.saveMovieForUser)
+
+router.patch('/edit/:movieId', isAuthenticatedMiddleware, MoviesController.editMovie)
+
+router.delete('/delete/:movieId', isAuthenticatedMiddleware, MoviesController.deleteMovie)
+router.delete('/deleteSavedMovieForUser/:movieId/:userId',isAuthenticatedMiddleware, MoviesController.deleteSavedMovieForUser)
 
 
 export default router
