@@ -1,5 +1,5 @@
-import { Input, InputProps, TextField, TextFieldProps, styled } from "@mui/material";
-import React, { ForwardedRef, forwardRef } from "react";
+import { TextField, TextFieldProps, styled } from "@mui/material";
+import { ForwardedRef, forwardRef } from "react";
 
 const StyledInput = styled(TextField)({
     color: 'white',
