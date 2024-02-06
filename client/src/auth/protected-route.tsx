@@ -10,7 +10,7 @@ const ProtectedRoute = (props: Props) => {
   const userStore = useUserStore()
   const user = userStore.user
   if (!user) {
-    return <Navigate to='/signUp' replace/>
+    return <Navigate to='/signIn'/>
   }
   return props.children
 }
