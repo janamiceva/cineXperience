@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "react-query"
 import { axiosIntance } from "../interceptors/auth-interceptor"
 import { useUserStore } from "../store/user-store";
 import Comment from "../types/comment";
-import FormValues from "../types/form-values-for-add-and-edit-comment";
 
 const addCommentForMovie = async (comment: string, movieId: string, userId: string | undefined) => {
     const newComment = await axiosIntance.post(`/comments/${movieId}`, { userId, comment });
