@@ -2,18 +2,22 @@ import { useEffect } from 'react'
 import './App.css'
 import SignIn from './auth/sign-in'
 import SignUp from './auth/sign-up'
-import MovieList from './components/movie-list'
+import MovieList from './components/now-showing-page'
 import { Route, Routes } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useUserStore } from './store/user-store'
 import { User } from './types/user'
 import { auth } from './auth/firebase-config'
-import UnprotectedRoute from './auth/unprotected-route'
 import ProtectedRoute from './auth/protected-route'
-import MovieDetail from './components/movie-detail'
-import MyReservations from './components/my-reservations'
 import HomePage from './components/home-page'
-import Layout from './components/layout'
+import LayoutForAuthPage from './components/layout/layout-for-auth-pages'
+import MovieDetailPage from './components/movie-detail-page/index'
+import AboutUs from './components/about-us-page'
+import BookTicket from './components/book-ticket-page'
+import MyReservations from './components/my-reservations-page'
+import Layout from './components/layout/layout'
+import SavedMovies from './components/saved-movies-page'
+import ComingSoonMovieList from './components/coming-soon-page'
 
 function App() {
 
@@ -28,12 +32,17 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/signUp' element={<UnprotectedRoute><Layout><SignUp /></Layout></UnprotectedRoute>} />
-      <Route path='/signIn' element={<UnprotectedRoute><Layout><SignIn /></Layout></UnprotectedRoute>} />
-      <Route path='/homePage' element={<Layout><HomePage /></Layout>}/>
-      <Route path='/movies' element={<MovieList />} />
-      <Route path='/movies/:id' element={<ProtectedRoute><MovieDetail /></ProtectedRoute>} />
-      <Route path='/myReservations' element={<ProtectedRoute><MyReservations /></ProtectedRoute>} />
+      <Route path='/' element={<Layout><HomePage /></Layout>} />
+      <Route path='/signUp' element={<LayoutForAuthPage><SignUp /></LayoutForAuthPage>} />
+      <Route path='/signIn' element={<LayoutForAuthPage><SignIn /></LayoutForAuthPage>} />
+      <Route path='/homePage' element={<Layout><HomePage /></Layout>} />
+      <Route path='/movies' element={<Layout><MovieList /></Layout>} />
+      <Route path='/comingSoonMovies' element={<Layout><ComingSoonMovieList /></Layout>} />
+      <Route path='/savedMovies' element={<Layout><ProtectedRoute><SavedMovies /></ProtectedRoute></Layout>} />
+      <Route path='/movies/:id' element={<Layout><MovieDetailPage /></Layout>} />
+      <Route path='/aboutUs' element={<Layout><AboutUs /></Layout>} />
+      <Route path='/bookTicket/:id' element={<Layout><ProtectedRoute><BookTicket /></ProtectedRoute></Layout>} />
+      <Route path='/myReservations' element={<Layout><ProtectedRoute><MyReservations /></ProtectedRoute></Layout>} />
     </Routes>
   )
 }
