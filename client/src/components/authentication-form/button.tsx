@@ -1,10 +1,10 @@
 import { Button, ButtonProps, styled } from "@mui/material";
 import React from "react";
 
-const StyledButton = styled(Button)(({theme}) =>({
+const StyledButton = styled(Button)({
     color: 'white',
     fontWeight: 'bold'
-}))
+})
 
 type AuthenticationFormButtonProps = {
     children: React.ReactNode
