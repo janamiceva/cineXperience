@@ -1,4 +1,4 @@
-interface SignInInput {
+type SignInInput = {
   email: string
   password: string
 }
