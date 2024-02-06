@@ -20,7 +20,8 @@ class UserRepository {
         const newlyCreatedUser = await prisma.user.create({
             data: {
                 id,
-                email
+                email,
+                role: 'REGULAR'
             }
         });
         return newlyCreatedUser;
