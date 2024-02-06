@@ -1,4 +1,4 @@
-interface Comment {
+type Comment = {
     content: string
     createdAt: string
     id: number

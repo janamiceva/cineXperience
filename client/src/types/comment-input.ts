@@ -1,4 +1,4 @@
-interface CommentInput {
+type CommentInput = {
     comment: string
 }
 

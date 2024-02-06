@@ -1,4 +1,4 @@
-interface FormValues {
+type FormValues = {
     commentId: number,
     comment: string
 }
