@@ -10,6 +10,8 @@ import Comment from "../../../types/comment";
 import { useForm } from "react-hook-form";
 import useEditCommentForMovie from "../../../hooks/use-edit-comment-for-movie";
 import CommentInput from "../../../types/comment-input";
+import useGetUserById from "../../../hooks/use-get-user";
+import UserRole from "../../../types/enum/user-role";
 
 type CommentListItemProps = {
     comment: Comment
@@ -21,6 +23,7 @@ function CommentListItem({ comment }: CommentListItemProps) {
     const [isEditingComment, setIsEditingComment] = useState(false);
     const { mutate: editCommentForMovie } = useEditCommentForMovie(String(id));
     const { register, handleSubmit } = useForm<CommentInput>();
+    const userRole = useGetUserById(auth.currentUser?.uid as string)?.data?.user?.role;
 
     const editComment = (commentId: number, formValues: CommentInput) => {
         const comment = formValues.comment;
@@ -37,7 +40,7 @@ function CommentListItem({ comment }: CommentListItemProps) {
             <ListItem
                 disableGutters
                 secondaryAction={
-                    comment.userId === auth.currentUser?.uid && <>
+                    (comment.userId === auth.currentUser?.uid || userRole === UserRole.admin) && <>
                         <Tooltip title="Edit your comment">
                             <IconButton onClick={() => setIsEditingComment(true)} >
                                 <EditIcon sx={{ color: 'white' }} />
