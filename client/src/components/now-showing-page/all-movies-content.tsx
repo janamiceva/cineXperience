@@ -4,17 +4,21 @@ import DropDown from "./drop-down";
 import MovieCard from "./movie-card";
 import SearchIcon from '@mui/icons-material/Search';
 import { ChangeEvent, useState } from "react";
-import useGetMovies from "../../hooks/use-get-movies";
 import useGetMoviesByQueryString from "../../hooks/use-get-movies-by-query-string";
 import useGetMovieByGenre from "../../hooks/use-get-movie-by-genre";
 import { getFilteredMovies } from "./utils/get-filtered-movies";
+import Pagination from "../pagination";
+import useGetMoviesPagination from "../../hooks/use-get-movies-with-pagination";
 
 function AllMoviesContent() {
     const [searchQuery, setSearchQuery] = useState("")
     const [genre, setGenre] = useState("");
-    const { data: allMovies } = useGetMovies();
+    const [currentPage, setCurrentPage] = useState(1)
+    const { data: allMoviesAndCounter } = useGetMoviesPagination(currentPage);
     const { data: filteredMoviesByQuery } = useGetMoviesByQueryString(searchQuery)
     const { data: filteredMoviesByGenre } = useGetMovieByGenre(genre)
+    const allMovies = allMoviesAndCounter?.movies
+    const totalItems = allMoviesAndCounter?.counter;
 
     let filteredMovies: Movie[] = []
     if (!genre) {
@@ -23,6 +27,10 @@ function AllMoviesContent() {
         filteredMovies = filteredMoviesByGenre
     } else {
         filteredMovies = getFilteredMovies(filteredMoviesByQuery, filteredMoviesByGenre)
+    }
+    
+    const paginate = (pageNumber: number) => {
+        setCurrentPage(pageNumber)
     }
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,6 +65,7 @@ function AllMoviesContent() {
                     </Box>
                 )}
             </Box>
+            { (!filteredMovies || filteredMovies?.length > 8) && <Pagination totalItems={totalItems} currentPage={currentPage} paginate={paginate} />}
         </>
     )
 }
