@@ -23,12 +23,17 @@ function CarouselItem({ item, image }: CarouselItemProps) {
         navigate(`/movies/${id}`)
     }
 
+    const bookNow = (movieId: number) => () => {
+        navigate(`/movies/${movieId}`);
+        window.scrollTo(5, 5)
+    }
+
     const rating = item?.rating / 2.0
 
     return (
-        <Paper sx={{ height: '300px', background: 'black' }}>
+        <Paper sx={{ height: '350px', background: 'black' }}>
             {isDesktop ? (<Box sx={{ display: 'flex', height: 'inherit', justifyContent: 'space-around' }}>
-                <img src={image} style={{ width: '500px' }} />
+                <img src={image} style={{ width: '250px' }} />
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '30%', textAlign: 'center', padding: '2%', right: 0, justifyContent: 'space-between' }}>
                     <Typography variant="h1" style={{ color: 'white', fontSize: '2rem', fontWeight: "bold" }}>{item.name}</Typography>
@@ -40,11 +45,11 @@ function CarouselItem({ item, image }: CarouselItemProps) {
                         </Tooltip>
                         <Typography sx={{ color: 'white' }}>{item?.duration}min</Typography>
                     </Box>
-                    <Typography style={{ color: 'white', height: '30%', marginTop: '10px' }}>{item.description}</Typography>
+                    <Typography style={{ color: 'white', height: '40%', marginTop: '10px' }}>{item.description}</Typography>
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
                         <StyledButton onClick={() => handleOnClickDetails(item.id)} sx={{ color: 'white', border: '1px solid white' }}>See More</StyledButton>
-                        <StyledButton sx={{ color: 'red', border: '1px solid red' }}>Book now</StyledButton>
+                        <StyledButton sx={{ color: 'red', border: '1px solid red' }} onClick={bookNow(item.id)}>Book now</StyledButton>
                     </Box>
                 </Box>
             </Box>) : (<img src={image} style={{
