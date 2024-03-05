@@ -33,7 +33,7 @@ function Carousel({ children }: {children: JSX.Element}) {
     }, [id])
 
     return (
-        <Box sx={{ width: cardSize, height: cardSize, perspective: '500px', transformStyle: 'preserve-3d' }}>
+        <Box sx={{ width: '250px', height: cardSize, perspective: '500px', transformStyle: 'preserve-3d' }}>
             {active > 0 && <StledButton sx={{ transform: 'translateX(-100%) translateY(-50%)', }} onClick={() => setActive(i => i - 1)}><ArrowBackIosIcon sx={{ color: 'red' }} /></StledButton>}
             {React.Children.map(children, (child, i) => (
                 <Box sx={{
