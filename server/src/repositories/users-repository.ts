@@ -4,7 +4,7 @@ import User from "../types/user";
 class UserRepository {
     public static async getAllUsers (): Promise<User[]> {
         const users = await prisma.user.findMany();
-        return users;
+        return users as User[];
     }
 
     public static async getUserByUserId (id: string): Promise<User> {
@@ -24,7 +24,7 @@ class UserRepository {
                 role: 'REGULAR'
             }
         });
-        return newlyCreatedUser;
+        return newlyCreatedUser as User;
     }
 }
 
