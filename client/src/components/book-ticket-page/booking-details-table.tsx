@@ -107,7 +107,7 @@ function BookingDetailsTable({ selectedSeats, totalPrice, movieName, onReserving
                         </TableHead>
                         <TableBody>
                             <TableRow>
-                                <StyledTableCell align="center">Selected seats:
+                                <StyledTableCell align="center">Selected seats: 
                                     {selectedSeats.map((seat: number, i: number) => {
                                         if (i !== selectedSeats.length - 1)
                                             return (<span key={i} style={{ color: 'orange' }}>{seat}, </span>)

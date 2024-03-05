@@ -74,7 +74,7 @@ function BookTicket() {
                         <StyledTypography><span style={{ color: 'red' }}>TIME: </span> {Moment(date).format('hh:mm a')}</StyledTypography>
                         <StyledTypography><span style={{ color: 'red' }}>PRICE: </span>${screeningDetails?.price}</StyledTypography>
                     </Box>
-                    <img src={movie?.image} style={{ width: '500px', height: 'auto' }} />
+                    <img src={movie?.image} style={{ width: '300px', height: '400px' }} />
                 </StyledContainer>
                 <StyledContainer sx={{ alignItems: 'center' }}>
                     <StyledContainerForSeatsTemplate>

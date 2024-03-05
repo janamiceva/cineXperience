@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Typography, styled, useMediaQuery } from "@mui/material";
 import image1 from '../../static/images/image3.jpeg'
 import image2 from '../../static/images/image2.webp'
 
@@ -40,10 +40,14 @@ const Container = styled(Box)(({ theme }) => ({
 }))
 
 function AboutUs() {
+
+    const isMobile = useMediaQuery('(max-width:600px)');
+    console.log(isMobile)
+
     return (
         <Container>
             <StyledContainer>
-                <img src={image1} style={{ height: '400px' }} />
+                <img src={image1} style={{ height: isMobile? 'auto' : '400px' }} />
 
                 <StyledBox>
                     <StyledHeader variant="h5" sx={{ paddingTop: '0' }}>About Us</StyledHeader>
@@ -57,7 +61,7 @@ function AboutUs() {
             <StyledContainer sx={{ marginTop: '50px' }}>
                 <StyledBox>
                     <StyledHeader variant="h5" sx={{ paddingTop: '0' }}>Our Commitment</StyledHeader>
-                    <StyledTypography>We are committed to bringing you the latest releases, timeless classics, and everything in between. Our partnerships with cinemas across [your area/country] ensure that you have access to a wide array of choices, all at your fingertips. Your convenience is our priority, and our user-friendly interface reflects our dedication to making your ticket booking experience smooth and enjoyable.</StyledTypography>
+                    <StyledTypography>We are committed to bringing you the latest releases, timeless classics, and everything in between. We ensure that you have access to a wide array of choices, all at your fingertips. Your convenience is our priority, and our user-friendly interface reflects our dedication to making your ticket booking experience smooth and enjoyable.</StyledTypography>
                     <StyledHeader variant="h5">Join the cineXperience Community</StyledHeader>
                     <StyledTypography>cineXperience is more than a ticketing platform; it's a community of passionate moviegoers. Follow us on social media to stay updated on the latest releases, exclusive promotions, and behind-the-scenes glimpses. Your journey with cineXperience doesn't end at the ticket counter, it extends to the shared excitement of fellow movie buffs.</StyledTypography>
                 </StyledBox>
