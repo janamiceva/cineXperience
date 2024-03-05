@@ -27,17 +27,20 @@ function Card({ title, src, movie }: CardProps) {
             color: 'var(--color-gray)',
             textAlign: 'justify',
             transition: 'all 0.3s ease-out',
+            marginBottom: '100px',
+            justifyContent: 'center',
+            alignItems: 'center',
         }}>
             <Typography variant='h2' sx={{
                 textAlign: 'center',
-                fontSize: '2rem',
+                fontSize: '1.5rem',
                 fontWeight: 'bold',
-                margin: '0 0 0.7em',
+                margin: '0 0 0.5em',
                 color: 'var(--color-black)',
                 transition: 'all 0.3s ease-out',
                 opacity: 'var(--active)',
             }}>{title}</Typography>
-            <img src={src} style={{ width: '300px', height: '150px' }} />
+            <img src={src} style={{ width: '200px', height: '' }} />
             <Button onClick={() => seeDetailsforMovie(movie?.id)} sx={{ alignSelf: 'center', color: 'red', border: '1px solid red', marginTop: '10px' }}>See more</Button>
         </Box >
     );
