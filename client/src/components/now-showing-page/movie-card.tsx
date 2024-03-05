@@ -95,12 +95,11 @@ function MovieCard({ movieId }: CardProps) {
   const callbackDeleteMovie = () => {
     deleteSavedMovie();
     setFavorite(false);
-    enqueueSnackbar({ message: `${movie?.name} is unssaved from your list`, variant: 'success' })
+    enqueueSnackbar({ message: `${movie?.name} is unsaved from your list`, variant: 'success' })
   };
 
   const { register, handleSubmit } = useForm<MovieInput>();
-  const userRole = useGetUserById(auth.currentUser?.uid as string)?.data?.user
-    ?.role;
+  const userRole = useGetUserById(auth.currentUser?.uid as string)?.data?.user?.role;
 
   const handleEditMovie = (inputValues: MovieInput) => {
     const movieId = movie?.id;
