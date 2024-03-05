@@ -18,6 +18,7 @@ import MyReservations from './components/my-reservations-page'
 import Layout from './components/layout/layout'
 import SavedMovies from './components/saved-movies-page'
 import ComingSoonMovieList from './components/coming-soon-page'
+import AllReservations from './components/all-reservations-page'
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
       <Route path='/aboutUs' element={<Layout><AboutUs /></Layout>} />
       <Route path='/bookTicket/:id' element={<Layout><ProtectedRoute><BookTicket /></ProtectedRoute></Layout>} />
       <Route path='/myReservations' element={<Layout><ProtectedRoute><MyReservations /></ProtectedRoute></Layout>} />
+      <Route path='/allReservations' element={<Layout><AllReservations /></Layout>} />
     </Routes>
   )
 }
