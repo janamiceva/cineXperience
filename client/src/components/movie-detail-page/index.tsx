@@ -52,7 +52,7 @@ function MovieDetailPage() {
                 <YouTubeVideo videoId={movie?.videoId} />
 
                 <StyledBox>
-                    <img src={movie?.image} style={{ width: '525px', height: '350px' }} />
+                    <img src={movie?.image} style={{ height: '350px' }} />
                     <MovieDetails />
                 </StyledBox >
                 <MovieScreeningTable />
