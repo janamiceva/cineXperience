@@ -33,19 +33,7 @@ model Movie {
   comments        Comment[]
   movieScreenings MovieScreening[]
   favorite        FavoriteMovies[]
-}
-
-model CommingSoonMovies {
-  id              Int              @id @default(autoincrement())
-  name            String
-  description     String
-  rating          Float
-  director        String
-  cast            String[]
-  duration        Float
-  genre           String[]
-  image           String
-  videoId         String?
+  isNowShowing      Boolean        @default(true)
 }
 
 model FavoriteMovies {
