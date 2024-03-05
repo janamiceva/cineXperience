@@ -6,7 +6,7 @@ import isAuthenticatedMiddleware from "../../middlewares/auth-middleware"
 const router = express.Router();
 
 router.get('/', isAuthenticatedMiddleware, CommentController.getAllComments);
-router.get('/:movieId', isAuthenticatedMiddleware, CommentController.getAllCommentsByMovie);
+router.get('/:movieId', CommentController.getAllCommentsByMovie);
 
 router.post('/:movieId', isAuthenticatedMiddleware,  CommentController.createComment);
 
