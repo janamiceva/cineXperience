@@ -4,12 +4,45 @@ import Movie from '../types/movie'
 
 class MovieRepository {
   public static async getMovies(): Promise<Movie[]> {
-    const movies = await prisma.movie.findMany();
+    const movies = await prisma.movie.findMany({
+      where: {
+        isNowShowing: true
+      }
+    });
     return movies
   }
 
+  public static async getMoviesPagination(currentPage: number) {
+    const [movies, counter] = await prisma.$transaction(async (tx) => {
+
+      const movies = await prisma.movie.findMany({
+        skip: (Number(currentPage) - 1) * 8,
+        take: 8,
+        where: {
+          isNowShowing: true
+        },
+      });
+
+      const commingSoonMovies = await prisma.movie.findMany({
+        where: {
+          isNowShowing: false
+        },
+      });
+
+      const counter = await prisma.movie.count() - commingSoonMovies.length
+
+      return [movies, counter]
+    })
+
+    return { movies, counter }
+  }
+
   public static async getComingSoonMovies(): Promise<Movie[]> {
-    const movies = await prisma.commingSoonMovies.findMany();
+    const movies = await prisma.movie.findMany({
+      where: {
+        isNowShowing: false
+      }
+    });
     return movies
   }
 
@@ -35,12 +68,13 @@ class MovieRepository {
   }
 
 
-  public static async getMovieByGenre(genre: string): Promise<Movie[]> {
+  public static async getMoviesByGenre(genre: string): Promise<Movie[]> {
     const movies = await prisma.movie.findMany({
       where: {
         genre: {
           has: genre
-        }
+        },
+        isNowShowing: true
       }
     })
     return movies
