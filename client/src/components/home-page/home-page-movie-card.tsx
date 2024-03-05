@@ -4,6 +4,7 @@ import Movie from "../../types/movie";
 
 const StyledCard = styled(Card)(({ theme }) => ({
     maxWidth: 200,
+    width: 200,
     height: 250,
     background:
         'transparent',
