@@ -2,7 +2,7 @@ import axios from "axios";
 import { useUserStore } from "../store/user-store";
 
 export const axiosIntance = axios.create({
-    baseURL: 'http://localhost:3001'
+    baseURL: process.env.API_URL || 'http://localhost:3001'
 })
 
 axiosIntance.interceptors.request.use((request) => {
