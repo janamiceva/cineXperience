@@ -23,12 +23,12 @@ const root = ReactDOM.createRoot(
 )
 
 const theme = createTheme();
-
+const publicKey = process.env.REACT_APP_STRIPE_PUBLICKEY as string
 
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <StripeProvider apiKey='pk_test_51OLomxHipg0mTMHOBFbn5MDbvBUR929ONILzXr5OkOWLXmuEvGc9nFLBX7f09LLlefHRtBme3gYXfEmlte1xCB9y00xS77GSjl'>
+      <StripeProvider apiKey={publicKey}>
         <Elements>
           <SnackbarProvider autoHideDuration={3000} maxSnack={2}>
             <BrowserRouter>
