@@ -1,10 +1,55 @@
 import { type Request, type Response } from 'express'
 import MovieRepository from '../repositories/movies-repository';
+import axios from 'axios';
 
+const apiKey = process.env.OMDB_APIKEY;
 class MoviesController {
-  public static async getAllMovies(request: Request, response: Response): Promise<void> {
+
+  public static async APIMovies(_request: Request, response: Response): Promise<void> {
+    console.log('apikey', apiKey)
+
+    try {
+      const allMovies = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&s=movie&type=movie&y=2023`);
+      const data = allMovies.data.Search;
+      for (const movie of data) {
+        const imdbID = movie.imdbID;
+        const detailsResponse = await axios.get(`http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`);
+
+        console.log(detailsResponse.data)
+
+        const movieData = detailsResponse.data;
+        await MovieRepository.addMovie(
+          movieData.Title,
+          movieData.Genre.split(',').map((genre: string) => genre.trim()),
+          movieData.Plot || '',
+          movieData.Director,
+          parseFloat(movieData.Runtime) || 0,
+          movieData.Poster || '',
+          parseFloat(movieData.imdbRating) || 0,
+          movieData.Actors.split(','),
+          movieData.imdbID
+        );
+      }
+      response.status(200).json(data)
+    } catch (error) {
+      response.status(500).json({ error: 'An error occurred' })
+    }
+
+  }
+
+  public static async getAllMovies(_request: Request, response: Response): Promise<void> {
     try {
       const movies = await MovieRepository.getMovies()
+      response.status(200).json(movies)
+    } catch (error) {
+      response.status(500).json({ error: 'An error occurred' })
+    }
+  }
+
+  public static async getAllMoviesPagination(request: Request, response: Response): Promise<void> {
+    try {
+      const currentPage = request.query.currentPage
+      const movies = await MovieRepository.getMoviesPagination(Number(currentPage))
       response.status(200).json(movies)
     } catch (error) {
       response.status(500).json({ error: 'An error occurred' })
@@ -40,10 +85,10 @@ class MoviesController {
     }
   }
 
-  public static async getMovieByGenre(request: Request, response: Response): Promise<void> {
+  public static async getMoviesByGenre(request: Request, response: Response): Promise<void> {
     try {
       const genre = request.params.genre
-      const movies = await MovieRepository.getMovieByGenre(genre)
+      const movies = await MovieRepository.getMoviesByGenre(genre)
       response.status(200).json(movies)
     } catch (error) {
       response.status(500).json({ error: 'An error occurred' })
